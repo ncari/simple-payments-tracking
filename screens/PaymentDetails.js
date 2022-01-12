@@ -1,8 +1,15 @@
-import React from "react";
-import { ScrollView, Text, View, TextInput } from "react-native";
+import React, { useLayoutEffect } from "react";
+import {
+  ScrollView,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import tw from "twrnc";
 
 import Note from "../components/Note";
+import useDatabase from "../services/hooks/useDatabase";
 
 const Label = ({ title, value, style }) => (
   <View style={[tw`flex-row`, style]}>
@@ -11,15 +18,38 @@ const Label = ({ title, value, style }) => (
   </View>
 );
 
-function PaymentDetails({ route }) {
-  const { value, client } = route.params;
+function PaymentDetails({ route, navigation }) {
+  const { amount, client, datetime, id } = route.params;
+  const db = useDatabase();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={handleDelete}
+          style={tw`rounded-xl px-4 py-2 bg-red-600`}
+        >
+          <Text style={tw`text-white font-bold`}>Eliminar</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
+  const handleDelete = () => {
+    db.transaction((tx) => {
+      tx.executeSql(`delete from payments where id=?;`, [id]);
+    });
+    navigation.navigate("Payments", { updatePayments: true });
+  };
+
   return (
     <ScrollView style={tw`flex-1 bg-white p-4`}>
       {/*basic info*/}
       <Text style={tw`text-xs text-gray-400`}>Informacion basica</Text>
       <View style={tw`mt-4`}>
         <Label title="Cliente" value={client} />
-        <Label title="Monto" value={`$ ${value}`} style={tw`mt-2`} />
+        <Label title="Monto" value={`$ ${amount}`} style={tw`mt-2`} />
+        <Label title="Fecha" value={datetime} style={tw`mt-2`} />
       </View>
       <TextInput
         placeholder="Descripcion"
