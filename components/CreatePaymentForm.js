@@ -18,11 +18,13 @@ function CreatePaymentForm({ onCreate }) {
     if (!value.includes(".")) setValue(`${value}.`);
   };
 
-  const handleCreate = () => {
-    onCreate({
+  const handleCreate = async () => {
+    await onCreate({
       client,
       value,
     });
+    setValue("");
+    setClient("");
   };
 
   return (

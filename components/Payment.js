@@ -4,7 +4,7 @@ import tw from "twrnc";
 
 import SmallCard from "./SmallCard";
 
-function Payment() {
+function Payment({ client, amount, datetime }) {
   return (
     <SmallCard>
       <SmallCard.Left>
@@ -13,12 +13,12 @@ function Payment() {
           style={tw`h-12 w-12 rounded-xl`}
         />
         <View style={tw`ml-4`}>
-          <Text style={tw`text-blue-800`}>Jane Doe</Text>
-          <Text style={tw`text-xs text-gray-400 mt-1`}>12/01/2022</Text>
+          <Text style={tw`text-blue-800`}>{client}</Text>
+          <Text style={tw`text-xs text-gray-400 mt-1`}>{datetime}</Text>
         </View>
       </SmallCard.Left>
       <SmallCard.Right>
-        <Text style={tw`text-green-400`}>$ 350</Text>
+        <Text style={tw`text-green-400`}>$ {amount}</Text>
       </SmallCard.Right>
     </SmallCard>
   );
