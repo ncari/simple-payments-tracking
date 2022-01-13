@@ -5,6 +5,7 @@ import tw from "twrnc";
 
 import Payment from "../components/Payment";
 import useDatabase from "../services/hooks/useDatabase";
+import DateTimePicker from "../components/DateTimePicker";
 
 function Payments({ navigation, route }) {
   const db = useDatabase();
@@ -14,7 +15,7 @@ function Payments({ navigation, route }) {
     if (route.params && route.params.updatePayments) {
       db.transaction((tx) => {
         tx.executeSql(
-          `select * from payments;`,
+          `select * from payments order by datetime desc;`,
           [],
           (_, { rows: { _array } }) => setPayments(_array)
         );
@@ -24,8 +25,10 @@ function Payments({ navigation, route }) {
 
   useEffect(() => {
     db.transaction((tx) => {
-      tx.executeSql(`select * from payments;`, [], (_, { rows: { _array } }) =>
-        setPayments(_array)
+      tx.executeSql(
+        `select * from payments order by datetime desc;`,
+        [],
+        (_, { rows: { _array } }) => setPayments(_array)
       );
     });
   }, []);
@@ -48,6 +51,8 @@ function Payments({ navigation, route }) {
       style={tw`bg-white p-4`}
       conten
       ItemSeparatorComponent={() => <View style={tw`mt-2`} />}
+      ListHeaderComponent={DateTimePicker}
+      ListHeaderComponentStyle={tw`mb-4`}
     />
   );
 }
