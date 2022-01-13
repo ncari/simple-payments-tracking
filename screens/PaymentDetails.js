@@ -65,7 +65,6 @@ function PaymentDetails({ route, navigation }) {
         <Text style={tw`text-xs text-gray-400 mt-8`}>+ Nuevo</Text>
       </View>
       <View style={tw`mt-4`} />
-      <Note />
     </ScrollView>
   );
 }

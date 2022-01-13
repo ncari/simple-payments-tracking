@@ -13,6 +13,13 @@ db.transaction((tx) => {
   );
 });
 
+// notes table
+db.transaction((tx) => {
+  tx.executeSql(
+    "create table if not exists notes (id integer primary key not null, title varchar(255), body text, datetime datetime);"
+  );
+});
+
 const DatabaseProvider = ({ children }) => {
   return <Provider value={db}>{children}</Provider>;
 };

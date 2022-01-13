@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { TextInput, View, Text, TouchableOpacity } from "react-native";
+import { TextInput, View } from "react-native";
 import tw from "twrnc";
+import Button from "./Button";
 
 import Numpad from "./Numpad";
 
@@ -46,12 +47,7 @@ function CreatePaymentForm({ onCreate }) {
         onDelete={handleDelete}
         onDot={handleDot}
       />
-      <TouchableOpacity
-        style={tw`p-4 bg-blue-800 rounded-xl flex-row justify-center`}
-        onPress={handleCreate}
-      >
-        <Text style={tw`text-white`}>Agregar</Text>
-      </TouchableOpacity>
+      <Button title="Agregar" onCreate={handleCreate} />
     </View>
   );
 }

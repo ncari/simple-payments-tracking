@@ -4,7 +4,7 @@ import tw from "twrnc";
 
 import SmallCard from "./SmallCard";
 
-function Note() {
+function Note({ title, datetime }) {
   return (
     <SmallCard>
       <SmallCard.Left>
@@ -13,8 +13,8 @@ function Note() {
           style={tw`h-12 w-12 rounded-xl`}
         />
         <View style={tw`ml-4`}>
-          <Text style={tw`text-blue-800`}>El titulo de la nota</Text>
-          <Text style={tw`text-xs text-gray-400 mt-1`}>12/01/2022</Text>
+          <Text style={tw`text-blue-800`}>{title}</Text>
+          <Text style={tw`text-xs text-gray-400 mt-1`}>{datetime}</Text>
         </View>
       </SmallCard.Left>
     </SmallCard>

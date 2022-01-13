@@ -2,12 +2,14 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TouchableOpacity, Text } from "react-native";
+import tw from "twrnc";
 
 import Home from "../screens/Home";
 import PaymentDetails from "../screens/PaymentDetails";
 import Payments from "../screens/Payments";
 import Notes from "../screens/Notes";
-import tw from "twrnc";
+import CreateNote from "../screens/CreateNote";
+import NoteDetails from "../screens/NoteDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +36,12 @@ function Navigation() {
         <Stack.Screen name="PaymentDetails" component={PaymentDetails} />
         <Stack.Screen name="Payments" component={Payments} />
         <Stack.Screen name="Notes" component={Notes} />
+        <Stack.Screen name="CreateNote" component={CreateNote} />
+        <Stack.Screen
+          name="NoteDetails"
+          component={NoteDetails}
+          options={({ route }) => ({ title: route.params.title })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
