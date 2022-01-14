@@ -18,7 +18,7 @@ function Payment({ client, amount, datetime }) {
         </View>
       </SmallCard.Left>
       <SmallCard.Right>
-        <Text style={tw`text-green-400`}>$ {amount}</Text>
+        <Text style={tw`text-green-400`}>${amount}</Text>
       </SmallCard.Right>
     </SmallCard>
   );

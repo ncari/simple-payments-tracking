@@ -16,7 +16,7 @@ function NoteDetails({ route, navigation }) {
           onPress={handleDelete}
           style={tw`rounded-xl px-4 py-2 bg-red-600`}
         >
-          <Text style={tw`text-white font-bold`}>Eliminar</Text>
+          <Text style={tw`text-white font-bold text-xs`}>Eliminar</Text>
         </TouchableOpacity>
       ),
     });

@@ -8,13 +8,14 @@ import {
 } from "react-native";
 import tw from "twrnc";
 
-import Note from "../components/Note";
 import useDatabase from "../services/hooks/useDatabase";
 
 const Label = ({ title, value, style }) => (
   <View style={[tw`flex-row`, style]}>
-    <Text style={tw`text-blue-800`}>{title}</Text>
-    <Text style={tw`text-blue-800 ml-8 font-bold`}>{value}</Text>
+    <Text style={tw`w-1/5 text-blue-900 text-base`}>{title}</Text>
+    <Text style={tw`w-4/5 text-blue-900 ml-8 text-base font-bold`}>
+      {value}
+    </Text>
   </View>
 );
 
@@ -29,7 +30,7 @@ function PaymentDetails({ route, navigation }) {
           onPress={handleDelete}
           style={tw`rounded-xl px-4 py-2 bg-red-600`}
         >
-          <Text style={tw`text-white font-bold`}>Eliminar</Text>
+          <Text style={tw`text-white font-bold text-xs`}>Eliminar</Text>
         </TouchableOpacity>
       ),
     });
@@ -48,7 +49,7 @@ function PaymentDetails({ route, navigation }) {
       <Text style={tw`text-xs text-gray-400`}>Informacion basica</Text>
       <View style={tw`mt-4`}>
         <Label title="Cliente" value={client} />
-        <Label title="Monto" value={`$ ${amount}`} style={tw`mt-2`} />
+        <Label title="Monto" value={`$${amount}`} style={tw`mt-2`} />
         <Label title="Fecha" value={datetime} style={tw`mt-2`} />
       </View>
       <TextInput

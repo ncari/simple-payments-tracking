@@ -38,7 +38,10 @@ function CreatePaymentForm({ onCreate }) {
       />
       <TextInput
         placeholder="$"
-        style={tw`p-2 border-2 border-blue-700 rounded-xl text-4xl font-bold mt-4`}
+        style={[
+          tw`px-4 py-2 border border-gray-200 rounded-xl text-4xl font-bold mt-4 text-gray-200`,
+          value !== "" && tw`border border-blue-600 text-blue-900`,
+        ]}
         value={`$ ${value}`}
       />
       <Numpad
@@ -47,7 +50,9 @@ function CreatePaymentForm({ onCreate }) {
         onDelete={handleDelete}
         onDot={handleDot}
       />
-      <Button title="Agregar" onCreate={handleCreate} />
+      <View style={tw`mt-4`}>
+        <Button title="Agregar" onCreate={handleCreate} />
+      </View>
     </View>
   );
 }

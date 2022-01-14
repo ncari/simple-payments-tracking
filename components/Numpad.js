@@ -5,10 +5,12 @@ import tw from "twrnc";
 const Cell = ({ i, onPress }) => (
   <TouchableOpacity
     key={i}
-    style={tw`rounded-full justify-center items-center h-20 w-20 border border-gray-200`}
+    style={[
+      tw`rounded-full justify-center items-center h-20 w-20 bg-white border-b border-r border-gray-200`,
+    ]}
     onPress={() => onPress(i)}
   >
-    <Text style={tw`text-3xl text-blue-900`}>{i}</Text>
+    <Text style={tw`text-2xl font-bold text-blue-900`}>{i}</Text>
   </TouchableOpacity>
 );
 

@@ -22,8 +22,9 @@ function Navigation() {
           component={Home}
           options={({ navigation }) => ({
             headerRight: () => {
-              return ["Payments", "Notes"].map((t) => (
+              return ["Payments", "Notes"].map((t, i) => (
                 <TouchableOpacity
+                  key={i}
                   style={tw`px-4 py-2 rounded-xl bg-blue-400 mr-1 `}
                   onPress={() => navigation.navigate(t)}
                 >
