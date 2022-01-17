@@ -1,5 +1,6 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import DateTimePicker from '@react-native-community/datetimepicker';
 import tw from "twrnc";
 
 const months = [
@@ -26,25 +27,43 @@ const days = [
   "Sabado",
 ];
 
-function DateTimePicker() {
-  const today = new Date();
+function MyDateTimePicker({ date, onChange }) {
+  const _date = date || new Date();
+  const [open, setOpen] = useState(false);
+
+  const handleOnChange = (e, d) => {
+    setOpen(false);
+    if(onChange && d)
+      onChange(d);
+  }
+
   return (
-    <View style={tw`flex-row justify-between bg-gray-200 rounded-xl`}>
+    <>
+    <TouchableOpacity style={tw`flex-row justify-between bg-gray-200 rounded-xl`} onPress={() => setOpen(true)}>
       <View style={tw`p-4 rounded-xl bg-blue-500`}>
         <Text style={tw`text-white`}>
-          {days[today.getDay()]} {today.getDate()}
+          {days[_date.getDay()]} {_date.getDate()}
         </Text>
       </View>
       <View style={tw`flex-row justify-evenly flex-1`}>
         <View style={tw`p-4 rounded-xl bg-gray-200`}>
-          <Text style={tw`text-gray-400`}>{months[today.getMonth()]}</Text>
+          <Text style={tw`text-gray-400`}>{months[_date.getMonth()]}</Text>
         </View>
         <View style={tw`p-4 rounded-xl bg-gray-200`}>
-          <Text style={tw`text-gray-400`}>{today.getFullYear()}</Text>
+          <Text style={tw`text-gray-400`}>{_date.getFullYear()}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
+    {open && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={_date}
+          mode={'date'}
+          onChange={handleOnChange}
+        />
+      )}
+    </>
   );
 }
 
-export default DateTimePicker;
+export default MyDateTimePicker;

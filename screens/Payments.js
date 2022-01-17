@@ -7,31 +7,42 @@ import Payment from "../components/Payment";
 import useDatabase from "../services/hooks/useDatabase";
 import DateTimePicker from "../components/DateTimePicker";
 
+// yyyy-mm-ddT:hh:mm:ss.sssZ -> yyyy-mm-dd hh:mm:ss
+const _formatDate = (date, h, m, s) => {
+  let _date = date;
+  _date.setUTCHours(h,m,s);
+  _date = _date.toISOString().replace('T', ' ');
+  _date = _date.replace(/\.[0-9][0-9][0-9]Z/, '');
+  return _date;
+}
+
 function Payments({ navigation, route }) {
   const db = useDatabase();
   const [payments, setPayments] = useState([]);
+  const [date, setDate] = useState(new Date());
+
+  const getPayments = () => {
+    const start = _formatDate(date, 0, 0, 0);
+    const end = _formatDate(date, 23, 59, 59);
+
+    db.transaction((tx) => {
+      tx.executeSql(
+        `select * from payments where datetime between ? and ? order by datetime desc;`,
+        [start, end],
+        (_, { rows: { _array } }) => setPayments(_array)
+      );
+    });
+  }
 
   useEffect(() => {
     if (route.params && route.params.updatePayments) {
-      db.transaction((tx) => {
-        tx.executeSql(
-          `select * from payments order by datetime desc;`,
-          [],
-          (_, { rows: { _array } }) => setPayments(_array)
-        );
-      });
+      getPayments();
     }
   }, [route.params]);
 
   useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `select * from payments order by datetime desc;`,
-        [],
-        (_, { rows: { _array } }) => setPayments(_array)
-      );
-    });
-  }, []);
+    getPayments();
+  }, [date]);
 
   return (
     <FlatList
@@ -51,7 +62,7 @@ function Payments({ navigation, route }) {
       style={tw`bg-white p-4`}
       conten
       ItemSeparatorComponent={() => <View style={tw`mt-2`} />}
-      ListHeaderComponent={DateTimePicker}
+      ListHeaderComponent={<DateTimePicker date={date} onChange={setDate}/>}
       ListHeaderComponentStyle={tw`mb-4`}
     />
   );
