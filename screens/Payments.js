@@ -5,7 +5,7 @@ import tw from "twrnc";
 
 import Payment from "../components/Payment";
 import useDatabase from "../services/hooks/useDatabase";
-import DateTimePicker from "../components/DateTimePicker";
+import PaymentsListHeader from "../components/PaymentsListHeader";
 
 // yyyy-mm-ddT:hh:mm:ss.sssZ -> yyyy-mm-dd hh:mm:ss
 const _formatDate = (date, h, m, s) => {
@@ -20,6 +20,7 @@ function Payments({ navigation, route }) {
   const db = useDatabase();
   const [payments, setPayments] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [totalPayments, setTotalPayments] = useState(null);
 
   const getPayments = () => {
     const start = _formatDate(date, 0, 0, 0);
@@ -31,6 +32,11 @@ function Payments({ navigation, route }) {
         [start, end],
         (_, { rows: { _array } }) => setPayments(_array)
       );
+      tx.executeSql(
+        `select sum(amount) as total from payments where datetime between ? and ?;`,
+        [start, end],
+        (_, { rows: { _array }}) => setTotalPayments(_array[0].total)
+      )
     });
   }
 
@@ -62,7 +68,7 @@ function Payments({ navigation, route }) {
       style={tw`bg-white p-4`}
       conten
       ItemSeparatorComponent={() => <View style={tw`mt-2`} />}
-      ListHeaderComponent={<DateTimePicker date={date} onChange={setDate}/>}
+      ListHeaderComponent={<PaymentsListHeader onChangeDate={setDate} date={date} total={totalPayments} />}
       ListHeaderComponentStyle={tw`mb-4`}
     />
   );
