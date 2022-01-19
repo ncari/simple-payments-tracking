@@ -9,7 +9,7 @@ const db = SQLite.openDatabase("db.db");
 // payments table
 db.transaction((tx) => {
   tx.executeSql(
-    "create table if not exists payments (id integer primary key not null, client varchar(255), amount decimal(10,2), datetime datetime);"
+    "create table if not exists payments (id integer primary key not null, client varchar(255), amount decimal(10,2), description text, datetime datetime);"
   );
 });
 

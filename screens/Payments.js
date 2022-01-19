@@ -44,10 +44,11 @@ function Payments({ navigation, route }) {
   }
 
   useEffect(() => {
-    if (route.params && route.params.updatePayments) {
+    const unsubscribe = navigation.addListener('focus', () => {
       getPayments();
-    }
-  }, [route.params]);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     getPayments();

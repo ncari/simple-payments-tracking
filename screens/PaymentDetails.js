@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -21,6 +21,7 @@ const Label = ({ title, value, style }) => (
 
 function PaymentDetails({ route, navigation }) {
   const { amount, client, datetime, id } = route.params;
+  const [description, setDescription] = useState(route.params.description || '');
   const db = useDatabase();
 
   useLayoutEffect(() => {
@@ -36,11 +37,17 @@ function PaymentDetails({ route, navigation }) {
     });
   }, [navigation]);
 
+  const updateDescription = () => {
+    db.transaction((tx) => {
+      tx.executeSql(`update payments set description = ? where id = ?;`, [description, id]);
+    });
+  }
+
   const handleDelete = () => {
     db.transaction((tx) => {
       tx.executeSql(`delete from payments where id=?;`, [id]);
     });
-    navigation.navigate("Payments", { updatePayments: true });
+    navigation.navigate("Payments");
   };
 
   return (
@@ -58,6 +65,9 @@ function PaymentDetails({ route, navigation }) {
         multiline
         numberOfLines={3}
         textAlignVertical="top"
+        value={description}
+        onChangeText={setDescription}
+        onEndEditing={updateDescription}
       />
 
       {/* notes */}
