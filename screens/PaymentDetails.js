@@ -9,15 +9,7 @@ import {
 import tw from "twrnc";
 
 import useDatabase from "../services/hooks/useDatabase";
-
-const Label = ({ title, value, style }) => (
-  <View style={[tw`flex-row`, style]}>
-    <Text style={tw`w-1/5 text-blue-900 text-base`}>{title}</Text>
-    <Text style={tw`w-4/5 text-blue-900 ml-8 text-base font-bold`}>
-      {value}
-    </Text>
-  </View>
-);
+import Label from "../components/Label";
 
 function PaymentDetails({ route, navigation }) {
   const { amount, client, datetime, id } = route.params;
@@ -29,9 +21,9 @@ function PaymentDetails({ route, navigation }) {
       headerRight: () => (
         <TouchableOpacity
           onPress={handleDelete}
-          style={tw`rounded-xl px-4 py-2 bg-red-600`}
+          style={tw`rounded-xl px-4 py-2`}
         >
-          <Text style={tw`text-white font-bold text-xs`}>Eliminar</Text>
+          <Text style={tw`text-white text-red-600`}>Eliminar</Text>
         </TouchableOpacity>
       ),
     });

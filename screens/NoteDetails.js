@@ -1,12 +1,11 @@
 import React, { useLayoutEffect } from "react";
-import { ScrollView, Text, TouchableOpacity } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import tw from "twrnc";
-import CreateNoteForm from "../components/CreateNoteForm";
 
 import useDatabase from "../services/hooks/useDatabase";
 
 function NoteDetails({ route, navigation }) {
-  const { id, title, body, datetime } = route.params;
+  const { id, body, datetime } = route.params;
   const db = useDatabase();
 
   useLayoutEffect(() => {
@@ -14,9 +13,9 @@ function NoteDetails({ route, navigation }) {
       headerRight: () => (
         <TouchableOpacity
           onPress={handleDelete}
-          style={tw`rounded-xl px-4 py-2 bg-red-600`}
+          style={tw`rounded-xl px-4 py-2`}
         >
-          <Text style={tw`text-white font-bold text-xs`}>Eliminar</Text>
+          <Text style={tw`text-white text-red-600`}>Eliminar</Text>
         </TouchableOpacity>
       ),
     });
@@ -31,7 +30,13 @@ function NoteDetails({ route, navigation }) {
 
   return (
     <ScrollView style={tw`bg-white p-4`}>
-      <CreateNoteForm title={title} body={body} onCreate={() => {}} />
+      <Text style={tw`p-2 rounded-xl border border-gray-200 mt-4`}>
+        {body}
+      </Text>
+      <View style={tw`flex-row justify-between mt-8`}>
+        <Text style={tw`text-xs text-gray-400`}>Imagenes</Text>
+        <Text style={tw`text-xs text-gray-400`}>+ Nuevo</Text>
+      </View>
     </ScrollView>
   );
 }
