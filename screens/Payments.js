@@ -15,6 +15,11 @@ function Payments({ navigation, route }) {
   const [totalPayments, setTotalPayments] = useState(null);
   const [paymentsHistory, setPaymentsHistory] = useState([]);
 
+  // total of payments per day (7 days)
+  // fills with 0s when there is no
+  // total for a given day
+  const _totalPaymentsLineChart = [-3,-2,-1,0,1,2,3].map(v => paymentsHistory.find(p => p.date === _yyyy_mm_dd(_formatDate(_addDays(date, v), 0, 0, 0))) ? paymentsHistory.find(p => p.date === _yyyy_mm_dd(_formatDate(_addDays(date, v), 0, 0, 0))).total : 0 );
+
   const getPayments = () => {
     // used to get payments in current day
     const start = _formatDate(date, 0, 0, 0);
@@ -74,10 +79,10 @@ function Payments({ navigation, route }) {
       ItemSeparatorComponent={() => <View style={tw`mt-2`} />}
       ListHeaderComponent={<PaymentsListHeader onChangeDate={setDate} date={date} total={totalPayments} />}
       ListHeaderComponentStyle={tw`mb-4`}
-      ListFooterComponent={paymentsHistory.length >= 7 && (
+      ListFooterComponent={(
         <View style={tw`mx-4`}>
           <Text style={tw`text-xs text-gray-400`}>Pagos ultimos 7 dias</Text>
-          <PaymentsLineChart data={paymentsHistory.map(v => v.total)} date={date}/>
+          <PaymentsLineChart data={_totalPaymentsLineChart} date={date}/>
         </View>
       )}
       ListFooterComponentStyle={tw`mt-8`}
